@@ -1,0 +1,130 @@
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.vertical-menu {
+    height: 100%;
+    width: 200px; 
+    background-color: #111;
+    z-index: 1;
+    position: fixed;
+    padding-top: 20px;
+}
+  
+.vertical-menu a {
+    background-color: #111;
+    color: #c2d94c;
+    display: block;
+    padding: 12px;
+    text-decoration: none; 
+}
+  
+.vertical-menu a:hover {
+    background-color: #c2d94c;
+    color: #111;
+}
+  
+.main{
+    margin-left: 200px;
+    margin-right: 0px;
+    padding: 30px;
+    font-size: 17px;
+}
+
+.buttons{
+    padding: 7px 10px 7px 10px;
+    background-color: #c2d94c;
+    color: #252525;
+    border-radius: 8px;
+    border: 1px solid #c3ce86;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+.row{
+    display: flex;
+    margin: 20px;
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+
+.editor_column{
+    flex:  1 1 0px;
+    padding: 20px;
+    font-size: 17px;
+    overflow: auto;
+}
+
+.output_column{
+    flex: 1 1 0px;
+    padding: 20px;
+    font-size: 17px;
+    background-color: rgb(240, 240, 240);
+    overflow: auto;
+}
+
+.code_font{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.buttons{
+    padding: 7px 10px 7px 10px;
+    background-color: #c2d94c;
+    color: #252525;
+    border-radius: 8px;
+    border: 1px solid #c2d94c;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+.buttons:hover{
+ color: #c2d94c;
+ background-color: #111;
+}
+
+.code_space{
+    padding: 10px;
+    background-color: #f5f4f4;
+    border-radius: 11px;
+    font-family: Courier;
+}
+
+.center_image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.sub_head{
+    padding: 15px;
+    background-color: #111;
+    color: #c2d94c;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.description{
+    padding: 20px;
+    background-color: #111;
+    color: #c2d94c;
+    border-radius: 0px 10px 10px 10px;
+}
+
+.description p {
+    margin-top: 0px;
+    padding-right: 30px;
+}
+
+.sub_description {
+    background-color: #2c2b2b;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 15px;
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+    background-size: 250px 250px;
+}
