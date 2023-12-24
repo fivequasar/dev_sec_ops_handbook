@@ -1,3 +1,11 @@
+html {
+    background-color: #ffffff;
+}
+
+:root {
+    --green: #daff73; 
+}
+
 body {
     margin-left: 0px;
     margin-top: 0px;
@@ -15,14 +23,16 @@ body {
   
 .vertical-menu a {
     background-color: #111;
-    color: #c2d94c;
+    color: var(--green);
     display: block;
     padding: 12px;
-    text-decoration: none; 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
 }
   
 .vertical-menu a:hover {
-    background-color: #c2d94c;
+    background-color: var(--green);
     color: #111;
 }
   
@@ -30,12 +40,12 @@ body {
     margin-left: 200px;
     margin-right: 0px;
     padding: 30px;
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .buttons{
     padding: 7px 10px 7px 10px;
-    background-color: #c2d94c;
+    background-color: var(--green);
     color: #252525;
     border-radius: 8px;
     border: 1px solid #c3ce86;
@@ -46,8 +56,10 @@ body {
 .row{
     display: flex;
     margin: 20px;
-    border: 1px solid #eee;
+    border: 1px solid #111;
     overflow: hidden;
+    border-radius: 20px;
+    border-width: thick;
 }
 
 .editor_column{
@@ -67,20 +79,22 @@ body {
 
 .code_font{
     font-family: 'Times New Roman', Times, serif;
+    color: black;
 }
 
 .buttons{
     padding: 7px 10px 7px 10px;
-    background-color: #c2d94c;
+    background-color: var(--green);
     color: #252525;
     border-radius: 8px;
-    border: 1px solid #c2d94c;
+    border: 1px solid var(--green);
     font-size: 15px;
     cursor: pointer;
   }
 
 .buttons:hover{
- color: #c2d94c;
+ /*color: #c2d94c;*/
+ color: #FFFFFF;
  background-color: #111;
 }
 
@@ -89,6 +103,7 @@ body {
     background-color: #f5f4f4;
     border-radius: 11px;
     font-family: Courier;
+    color: black;
 }
 
 .center_image{
@@ -98,33 +113,30 @@ body {
     width: 70%;
 }
 
-.sub_head{
-    padding: 15px;
-    background-color: #111;
-    color: #c2d94c;
-    border-radius: 10px 10px 0px 0px;
-}
-
 .description{
-    padding: 20px;
+    display: flex;
+    padding: 10px;
     background-color: #111;
-    color: #c2d94c;
-    border-radius: 0px 10px 10px 10px;
-}
-
-.description p {
-    margin-top: 0px;
-    padding-right: 30px;
+    color: var(--green);
+    border-radius: 10px 10px 10px 10px;
 }
 
 .sub_description {
-    background-color: #2c2b2b;
+    flex: 1;
+    background-color: #262626;
     color: white;
     border-radius: 10px;
-    padding: 5px;
+    padding: 20px;
     margin: 15px;
     background-repeat: no-repeat;
     background-position-x: 98%;
     background-position-y: 50%;
     background-size: 250px 250px;
+    overflow: hidden;
+}
+
+.grey_back{
+    padding: 10px 20px 10px 20px; 
+    background-color: #262626; 
+    border-radius: 10px;
 }

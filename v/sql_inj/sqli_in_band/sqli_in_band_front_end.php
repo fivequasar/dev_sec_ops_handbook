@@ -47,8 +47,8 @@ if (isset($_POST["code"])) {
 
 <div class="vertical-menu">
         <a href="/v/index.php">Home</a>
-        <a href="/v/sqli-home.php" >SQL Injection</a>
-        <a href="/v/xss-home.php">XSS</a>
+        <a href="/v/sqli_home.php" >SQL Injection</a>
+        <a href="/v/xss_home.php">XSS</a>
 </div>
 
     <div class="main">
@@ -67,18 +67,16 @@ if (isset($_POST["code"])) {
 
         <b>Normal Operations</b>
         <p><b>Background: </b>We will be simulating a login system that is unprotected</p>
-        <p>Let's first find out how to login component works, the user enters the username and the password and will receive a message which is retrieved from the users table. Currently there is only one entry in this table which are </p>
+        <p>Let's first find out how to login component works, the user enters the username and the password and will receive a custom welcome message with it's username retrieved from the users table. Currently there is only one entry in this table which are: </p>
 
         <table>
         <tr style="text-align: left;">
             <th>Username</th>
             <th>Password</th>
-            <th>Message</th>
         </tr>
         <tr>
-            <td><span class="code_space">john</span></td>
-            <td><span class="code_space">password</span></td>
-            <td><span class="code_space">I Love Chinese Food!</span></td>
+            <td><span>john</span></td>
+            <td><span>password</span></td>
         </tr>
         </table>
 
@@ -87,7 +85,7 @@ if (isset($_POST["code"])) {
             <br>
             <li>Enter the username and password accordingly.</li>
             <br>
-            <li>You will receive the message "I Love Chinese Food!".</li>
+            <li>You will receive the message "Welcome, john. Login Successful".</li>
         </ol>
 
         <b>Error Based SQL</b>
@@ -119,7 +117,7 @@ if (isset($_POST["code"])) {
 
         <b>Union/Comment Based SQL</b>
 
-        <p>Sometimes, attackers can use a mix of two different types of attacks, in this scenario we will attempt to comment out the password and use the "UNION" command to pull another table's data named <span style="font-family: 'Courier';">sample_tb</span> within the same database.</p>
+        <p>Sometimes, attackers can use a mix of two different types of attacks, in this scenario we will attempt to comment out the password and use the "UNION" command to pull another table's data named <span style="font-family: 'Courier';">products</span> within the same database.</p>
 
         <ol style="padding-left: 20px;">
 
@@ -127,11 +125,11 @@ if (isset($_POST["code"])) {
 
             <br>
 
-            <li>Copy the the text below and paste it on the username, click <b>Submit</b>.<br><br><span class="code_space">' UNION SELECT name FROM sample_tb -- </span> <button class="buttons" onclick="copyTextTwo()">Copy</button></li>
+            <li>Copy the the text below and paste it on the username, click <b>Submit</b>.<br><br><span class="code_space">' UNION SELECT name FROM products -- </span> <button class="buttons" onclick="copyTextTwo()">Copy</button></li>
             
             <br>
 
-            <li>Noticed how the messages are not of the user table, it is instead pulling the names from the sample_tb table and because of the UNION command, replaced the name column of the sample_tb table as the message column. The point here is that attackers can extract data of other tables within the same database.</button></li>
+            <li>Noticed how the username are not of the user table, it is instead pulling the names from the products table and because of the UNION command, replaced the name column of the products table as the message column. The point here is that attackers can extract data of other tables within the same database.</button></li>
 
             <br>
             
@@ -165,7 +163,7 @@ if (isset($_POST["code"])) {
         }
 
         function copyTextTwo() {
-            var copyText = "' UNION SELECT name FROM sample_tb --  ";
+            var copyText = "' UNION SELECT name FROM products --  ";
             navigator.clipboard.writeText(copyText);
         }
     </script>

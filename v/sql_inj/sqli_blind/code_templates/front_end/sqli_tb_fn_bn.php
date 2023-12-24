@@ -9,7 +9,7 @@ $conn = new mysqli($servername, $username, $password, $db);
 
 $id = $_POST["id"];
 
-$sql = "SELECT id, name, address FROM sample_tb WHERE id = $id;";
+$sql = "SELECT id, name, country FROM products WHERE id = $id;";
 
 try {
 
@@ -25,7 +25,7 @@ try {
 
         <body style="padding: 10px;">
 
-                <p>I guess you will never know if this is SQLi vulnerable hahahahaha</p>
+                <p>Message Sent!</p>
                 <br>
                 <button onclick="history.back()" style="padding: 7px 10px 7px 10px; background-color: #252525;color: white; border-radius: 8px;">Go Back</button>
 

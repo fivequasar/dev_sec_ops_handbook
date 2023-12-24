@@ -50,8 +50,8 @@ if (isset($_POST["code"])) {
 <div class="vertical-menu">
 
     <a href="/v/index.php">Home</a>
-    <a href="/v/sqli-home.php" >SQL Injection</a>
-    <a href="/v/xss-home.php">XSS</a>
+    <a href="/v/sqli_home.php" >SQL Injection</a>
+    <a href="/v/xss_home.php">XSS</a>
 
 </div>
 

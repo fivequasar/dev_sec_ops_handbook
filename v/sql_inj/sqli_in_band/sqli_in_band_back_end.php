@@ -1,5 +1,5 @@
 <?php
-$content = file_get_contents('code_templates/back_end/sqli_ib_bn.php');
+$content = file_get_contents('code_templates/front_end/sqli_ib_fn_bn.php');
 
 if (isset($_POST["code"])) {
 
@@ -50,8 +50,8 @@ if (isset($_POST["code"])) {
 <div class="vertical-menu">
 
     <a href="/v/index.php">Home</a>
-    <a href="/v/sqli-home.php" >SQL Injection</a>
-    <a href="/v/xss-home.php">XSS</a>
+    <a href="/v/sqli_home.php" >SQL Injection</a>
+    <a href="/v/xss_home.php">XSS</a>
 
 </div>
 
@@ -74,12 +74,12 @@ if (isset($_POST["code"])) {
         <p>Let's breakdown how the earlier union/comment attack works.</p>
 
         <p>This is the attacker's input for the username </p>
-        <p class="code_space">' UNION SELECT name FROM sample_tb --  </p>
+        <p class="code_space">' UNION SELECT name FROM products -- </p>
         
         <p>When replaced with the username variable within the SQL Query, it will look like this:</p>
-        <p class="code_space"><span style="color:purple;">SELECT</span> username <span style="color:purple;">FROM</span> users <span style="color:purple;">WHERE</span> username <span style="color:deeppink">=</span> <span style="color:brown;">''</span> <span style="color:purple;">UNION SELECT</span> name <span style="color:purple;">FROM</span> sample_tb <span style="color:#CD7F32;">-- ' AND password = '$password';</span></p>
+        <p class="code_space"><span style="color:purple;">SELECT</span> username <span style="color:purple;">FROM</span> users <span style="color:purple;">WHERE</span> username <span style="color:deeppink">=</span> <span style="color:brown;">''</span> <span style="color:purple;">UNION SELECT</span> name <span style="color:purple;">FROM</span> products <span style="color:#CD7F32;">-- ' AND password = '$password';</span></p>
         <p>The first character of the attacker's query is a quotation, this is so that the username command will stil run but SQL will see it as an empty value</p>
-        <p class="code_space">SELECT username FROM users WHERE username = <span style="color: red;">''</span> UNION SELECT name FROM sample_tb --  ' AND password = '$password';</span></p>
+        <p class="code_space">SELECT username FROM users WHERE username = <span style="color: red;">''</span> UNION SELECT name FROM products --  ' AND password = '$password';</span></p>
 
         <p>It then proceeds to perform a union-based attack, for this attack it needs to fit two conditions:</p>
 
@@ -89,17 +89,16 @@ if (isset($_POST["code"])) {
             <li>The UNION column must contain the same data type as the original SELECT statement.</li>
         </ol>
 
-        <p>Looking at the original query, it currently only pulls a single column called <span style="font-family: 'Courier New', Courier, monospace;">username</span> from the <span style="font-family: 'Courier New', Courier, monospace;">users</span> table. Assuming that the attacker knows the name of the other table, it then proceeds to pull a single column called <span style="font-family: 'Courier New', Courier, monospace;">name</span> from the <span style="font-family: 'Courier New', Courier, monospace;">sample_tb</span> table</p>
-        <p class="code_space">SELECT <span style="color:red;">username</span> FROM <span style="color:red;">users</span> WHERE username = '' UNION SELECT <span style="color:red;">name</span> FROM <span style="color:red;">sample_tb</span> -- ' AND password = '$password';</p>
+        <p>Looking at the original query, it currently only pulls a single column called <span style="font-family: 'Courier New', Courier, monospace;">username</span> from the <span style="font-family: 'Courier New', Courier, monospace;">users</span> table. Assuming that the attacker knows the name of the other table, it then proceeds to pull a single column called <span style="font-family: 'Courier New', Courier, monospace;">name</span> from the <span style="font-family: 'Courier New', Courier, monospace;">products</span> table</p>
+        <p class="code_space">SELECT <span style="color:red;">username</span> FROM <span style="color:red;">users</span> WHERE username = '' UNION SELECT <span style="color:red;">name</span> FROM <span style="color:red;">products</span> -- ' AND password = '$password';</p>
         <p>The attacker then finally comments out the rest of the query using <span style="font-family: 'Courier New', Courier, monospace;">--</span>. This way, the SQL statement will completely ignore the password command, and just run the UNION command instead.  </p>
-        <p class="code_space">SELECT username FROM users WHERE username = '' UNION SELECT name FROM sample_tb <span style="color:red;"> -- ' AND password = '$password';</span></p>
-     
+        <p class="code_space">SELECT username FROM users WHERE username = '' UNION SELECT name FROM products <span style="color:red;"> -- ' AND password = '$password';</span></p>
         <p>And thus, this is what the SQL sees and runs:</p> 
-        <p class="code_space"><span style="color:purple;">SELECT</span> username <span style="color:purple;">FROM</span> users <span style="color:purple;">WHERE</span> username <span style="color:deeppink">=</span> <span style="color:brown;">''</span> <span style="color:purple;">UNION SELECT</span> name <span style="color:purple;">FROM</span> sample_tb</p>
+        <p class="code_space"><span style="color:purple;">SELECT</span> username <span style="color:purple;">FROM</span> users <span style="color:purple;">WHERE</span> username <span style="color:deeppink">=</span> <span style="color:brown;">''</span> <span style="color:purple;">UNION SELECT</span> name <span style="color:purple;">FROM</span> products</p>
 
     </div>
 
-    <div class="output_column code_font">
+    <div class="output_column">
 
         <form method="post">
 
@@ -129,7 +128,7 @@ if (isset($_POST["code"])) {
         }
 
         function copyTextTwo() {
-            var copyText = "' UNION SELECT name FROM sample_tb --  ";
+            var copyText = "' UNION SELECT name FROM products --  ";
             navigator.clipboard.writeText(copyText);
         }
     </script>

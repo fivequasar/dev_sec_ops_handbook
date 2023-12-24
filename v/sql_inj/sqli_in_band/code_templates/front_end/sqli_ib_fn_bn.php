@@ -11,7 +11,7 @@ $username = $_POST["username"];
 
 $password = $_POST["password"];
 
-$sql = "SELECT message FROM users WHERE username = '$username' AND password = '$password';";
+$sql = "SELECT username FROM users WHERE username = '$username' AND password = '$password';";
 
 $result = $conn->query($sql);
 
@@ -27,24 +27,21 @@ try {
         
         ?> 
 
-        <body style="padding: 10px;">
-
-            <h1 >Results:</h1>
-
                 <?php
                         if ($result->num_rows > 0) { 
                                 while($row = $result->fetch_assoc()) { 
-                                echo "Today's Message: " . $row["message"] . "<br>"; 
+                                echo "Welcome, " . $row["username"]. ". Login Successful!"; 
+                                echo "<br>";
                                 }
                         } else{
-                            echo "0 results";
+                            echo "Login Failed";
+                            echo "<br>";
                         }
                         $conn->close();
                 ?>
                 <br>
                 <button onclick="history.back()" style="padding: 7px 10px 7px 10px; background-color: #252525;color: white; border-radius: 8px;">Go Back</button>
 
-        </body>
 
         <?php
 
