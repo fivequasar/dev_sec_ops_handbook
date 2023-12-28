@@ -1,4 +1,5 @@
 <?php
+
 $server = 'localhost';
 $username = 'root';
 $password = '';
@@ -51,7 +52,7 @@ $username_var = 'sandbox_user';
 $password_var = 'password';
 $db_var = 'sample_db';
 
-$content = file_get_contents('code_templates/sqli_b_fn.php');
+$content = file_get_contents('code_templates/sqli_tb_fn.php');
 
 if (isset($_POST["code"])) {
 
@@ -121,66 +122,49 @@ if (isset($_POST["code"])) {
 
         <div class="editor_column">
         
-        <form method="post" action="sqli_blind_front_end.php">
+        <form method="post">
                 <textarea id="code" name="code"><?php echo $code; ?></textarea>
                 <br>
                 <input type="submit" value="Run Code >" class="buttons">
         </form>
+      
 
         <br>
-        <a href="sqli_blind_time_front_end.php"><button class="buttons">Swap to Time-Based Demo</button></a>
+        <a href="sqli_blind_front_end.php"><button class="buttons">Swap to Boolean-Based Demo</button></a>
         <br>
         <br>
-
         <b>Normal Operations</b>
-        <p><b>Background: </b>We will be simulating a search function which is unprotected</p>
-        <p>Based on the ID given by the user, it will retrieve and display the name and the address based on the ID.</p>
+        <p>When a user searches an item, it will say "Searched!", even if the items either exist or do not.</p>
 
-        <b>Boolean Based Attack</b>
+        <b>Time Based Attack</b>
 
         <ol>
 
-                <li>Click <b>Run Code</b>.</li>
+                <li>In some instances, performing boolean-based attacks may not directly reveal the results of it. This is where time-based attacks come in, to determine whether if the component is vulnerable to SQLi or not, instead of using 1= 1 AND 1, an attacker can use:</li>
 
-                 <br>
-
-                <li>To initiate this attack, we will need to enter one legitamate input first.</li>
-
-                <br>
-
-                <li>Copy the the text below and paste it on the ID search bar, click <b>Submit</b>.<br><br><span class="code_space">1</span> <button class="buttons" onclick="copyTextOne()">Copy</button></li>
+                <p><span class="code_space">1 AND IF(1=1, SLEEP(5), SLEEP(0))</span> <button class="buttons" onclick="copyTextSix()">Copy</button></p>
                 
-                <br>
-
-                <li>You will see the country of origin and the name of the product.</li>
+                <li>This essentially means that if 1 = 1 is true, wait for 5 seconds then execute or if false, execute it immediately. By entering the following in the parameter, and the websites responds by loading, it is SQL vulnerable.</li>
 
                 <br>
 
-                <li>To determine if a component is vulnerable to SQL Injection, an attacker could input the following: </li>
+                <li>The attacker then attemps to verify if the username 'admin' exist from the users table.</li>
 
-                <p>Copy the code below. If the application returns nothing, it is vulnerable to SQLi</p>
+                <p><div class="code_space">1 AND IF(EXISTS(SELECT * FROM users WHERE username ='admin'), SLEEP(5), SLEEP(0))</div><button class="buttons" onclick="copyTextEight()">Copy</button></p>
 
-                <p><span class="code_space">1 AND 1 = 2</span> <button class="buttons" onclick="copyTextTwo()">Copy</button></p>
+                <p>If when pressing submit, and the page dosen't show it's loading, it means that the username 'admin' does not exist in the users table. Now the attacker tries to find out if the username 'administrator' exist from the users table.</p>
 
-                <p>To confirm, copy the code below. If the application returns an entry, it is vulnerable to SQLi</p>
+                <p><div class="code_space">1 AND IF(EXISTS(SELECT * FROM users WHERE username ='administrator'), SLEEP(5), SLEEP(0))</div><button class="buttons" onclick="copyTextNine()">Copy</button></p>
 
-                <p><span class="code_space">1 AND 1 = 1</span> <button class="buttons" onclick="copyTextThree()">Copy</button></p>
-
-                <p>And now, with the intention of finding out if the users table has an account named "admin", an attacker can perform:</p>
-                <p><span class="code_space">1 AND EXISTS( SELECT * FROM users WHERE username ='admin') </span> <br><br><button class="buttons" onclick="copyTextFour()">Copy</button></p>
-                <p>It will return no entry, thus meaning the username admin in the users table does not exist.</p>
-
-                <p>The attacker then tries to find out if the users table has the username "administrator", an attacker can perform:</p>
-                <p><div class="code_space">1 AND EXISTS( SELECT * FROM users WHERE username ='administrator') </div><button class="buttons" onclick="copyTextSeven()">Copy</button></p>
-                <p>It will return an entry, thus meaning that the username administrator does indeed exist in the users database.</p>
+                <p>If when pressing submit, and the page shows it's loading, it means that the username 'administrator' does exist in the users table.</p>
 
         </ol>
 
         
         <p>Let's analyse the back-end code. Click Below.</p>
 
-        <a href="sqli_blind_back_end.php"><button class="buttons">View Boolean-Based attack back-end</button></a>
-    
+        <a href="sqli_blind_time_back_end.php"><button class="buttons">View Time-Based attack back-end</button></a>
+
         </div>
 
         <div class="output_column code_font">

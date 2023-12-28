@@ -1,3 +1,63 @@
+<?php
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+$server = 'localhost';
+$username = 'root';
+$password = '';
+
+$connOne = new mysqli($server, $username, $password);
+
+$sql = "DROP USER IF EXISTS 'sandbox_user'@'localhost';";
+$connOne->query($sql);
+
+$sql = "DROP DATABASE IF EXISTS sample_db;";
+$connOne->query($sql);
+
+$connOne = new mysqli($server, $username, $password);
+
+$sql = "CREATE DATABASE IF NOT EXISTS sample_db;";
+$connOne->query($sql);
+
+$db = 'sample_db';
+
+$conn = new mysqli($server, $username, $password, $db);
+
+$sql = "USE sample_db;";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), country VARCHAR(20));";
+$conn->query($sql);
+
+$sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(50))";
+$conn->query($sql);
+
+$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
+
+$sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
+$conn->query($sql);
+
+$sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
+$conn->query($sql);
+
+$sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
+$conn->query($sql);
+
+$sql = "GRANT SELECT, INSERT, UPDATE, DELETE ON sample_db.* TO 'sandbox_user'@'localhost';";
+$conn->query($sql);
+
+$sql = "FLUSH PRIVILEGES;";
+$conn->query($sql);
+
+$conn->close();
+
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -54,7 +114,7 @@
 
 <br>
 
-<p style="margin: 0px;background-color: #111;color: white;padding: 20px 20px 0px 20px; border-radius: 10px 10px 0px 0px;">There are three main ways to counter SQL Injections, <b>Input Validation</b>, <b>Input Sanitization</b> and <b>Prepared Statements</b></p>
+<p style="margin: 0px;background-color: #111;color: white;padding: 20px 20px 0px 20px; border-radius: 10px 10px 0px 0px;">There are three main ways to counter SQL Injections, <b>Input Validation</b>, <b>Prepared Statements</b> and <b>Stored Procedures</b></p>
 
     <div class="description" style="flex: none;border-radius: 0px;">
 

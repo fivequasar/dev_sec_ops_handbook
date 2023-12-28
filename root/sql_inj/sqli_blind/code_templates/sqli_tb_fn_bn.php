@@ -1,5 +1,4 @@
 <?php
-
 $server = 'localhost';
 $username = 'sandbox_user';
 $password = 'password';

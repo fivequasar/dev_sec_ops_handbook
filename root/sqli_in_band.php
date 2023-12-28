@@ -34,11 +34,20 @@ $conn->query($sql);
 $sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
 $conn->query($sql);
 
+$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(50))";
+$conn->query($sql);
+
+$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
+
 $sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
 $conn->query($sql);
 
+
+
 $sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
 $conn->query($sql);
+
+/** Create Sandbox User */
 
 $sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
 $conn->query($sql);
@@ -48,6 +57,8 @@ $conn->query($sql);
 
 $sql = "FLUSH PRIVILEGES;";
 $conn->query($sql);
+
+/** End of Create Sandbox User */
 
 $conn->close();
 

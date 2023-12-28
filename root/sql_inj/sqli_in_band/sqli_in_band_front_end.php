@@ -1,4 +1,58 @@
 <?php
+
+$server = 'localhost';
+$username = 'root';
+$password = '';
+
+$connOne = new mysqli($server, $username, $password);
+
+$sql = "DROP USER IF EXISTS 'sandbox_user'@'localhost';";
+$connOne->query($sql);
+
+$sql = "DROP DATABASE IF EXISTS sample_db;";
+$connOne->query($sql);
+
+$connOne = new mysqli($server, $username, $password);
+
+$sql = "CREATE DATABASE IF NOT EXISTS sample_db;";
+$connOne->query($sql);
+
+$db = 'sample_db';
+
+$conn = new mysqli($server, $username, $password, $db);
+
+$sql = "USE sample_db;";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), country VARCHAR(20));";
+$conn->query($sql);
+
+$sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(20))";
+$conn->query($sql);
+
+$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
+$conn->query($sql);
+
+$sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
+$conn->query($sql);
+
+$sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
+$conn->query($sql);
+
+$sql = "GRANT SELECT, INSERT, UPDATE, DELETE ON sample_db.* TO 'sandbox_user'@'localhost';";
+$conn->query($sql);
+
+$sql = "FLUSH PRIVILEGES;";
+$conn->query($sql);
+
+$conn->close();
+
 $content = file_get_contents('code_templates/sqli_ib_fn.php');
 
 if (isset($_POST["code"])) {
@@ -57,7 +111,7 @@ if (isset($_POST["code"])) {
 
         <a href="/root/sqli_oob.php">OOB SQLI</a>
 
-        <a href="sqli_prevention.php">SQLI Prevention</a>
+        <a href="/root/sqli_prevention.php">SQLI Prevention</a>
 
         <a href="/root/xss_home.php">XSS</a>
 </div>
