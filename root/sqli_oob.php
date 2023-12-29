@@ -92,7 +92,7 @@ $conn->close();
 
     <div class="main">
 
-        <div class="description" style="border-radius: 10px 10px 0px 0px; padding-bottom: 0px;">
+        <div class="description" style="border-radius: 10px; padding-bottom: 0px;">
 
             <div class="sub_description" style="background-image: url('images/in_band.png');">
 
@@ -100,21 +100,13 @@ $conn->close();
 
                 <p><b>Description: </b>Out-of-band SQL Injections sends the response from the database to an attacker's remote endpoint. Out-of-band SQL injection becomes feasible only when the database server being utilised supports commands that initiate DNS or HTTP requests. However, this condition holds true for most widely used SQL servers.</p>
 
-            </div>
-
-        </div>
-
-        <div class="description" style="border-radius: 0px 0px 10px 10px; padding-top: 0px;">
-
-            <div class="sub_description" style="background-image: url('images/in_band.png');">
-
-            <p style="margin-top: 0px;"><b>Example: </b>In our scenario, an attacker uses out-of-band SQL injection through DNS on a search function.</p>
+                <p style="margin-top: 0px;"><b>Example: </b>In our scenario, an attacker uses out-of-band SQL injection through DNS on a search function.</p>
 
                 <ol>
                     
                     <li>This is the query for the search function used:</li>
                     <br>
-                    <span class="code_space">bSELECT name FROM product WHERE name = '$name';</span>
+                    <span class="code_space">SELECT name FROM product WHERE name = '$name';</span>
                     <br>
                     <br>
                     <li>Then the attacker proceeds to use this payload:</li>
@@ -160,7 +152,10 @@ $conn->close();
                     </ul>
 
                 </ol>
-                
+
+                <br>
+                <p style="margin-top: 0px;"><b>Consequences: </b>Witihin your database, if there are certain configurations enabled, attacks can use functions like LOAD_FILE() to send sensitive data over to an attacker's server.</p>
+
             </div>
 
         </div>

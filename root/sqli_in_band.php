@@ -58,7 +58,7 @@ $conn->query($sql);
 $sql = "FLUSH PRIVILEGES;";
 $conn->query($sql);
 
-/** End of Create Sandbox User */
+/** End ofCreate Sandbox User */
 
 $conn->close();
 

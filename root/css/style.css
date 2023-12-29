@@ -3,7 +3,7 @@ html {
 }
 
 :root {
-    --green: #c7ec62; 
+    --green: #ffffff; 
 }
 
 body {
@@ -40,18 +40,8 @@ body {
     margin-left: 200px;
     margin-right: 0px;
     padding: 30px;
-    font-size: 20px;
+    font-size: 22px;
 }
-
-.buttons{
-    padding: 7px 10px 7px 10px;
-    background-color: var(--green);
-    color: #252525;
-    border-radius: 8px;
-    border: 1px solid #c3ce86;
-    font-size: 15px;
-    cursor: pointer;
-  }
 
 .row{
     display: flex;
@@ -84,7 +74,7 @@ body {
 
 .buttons{
     padding: 7px 10px 7px 10px;
-    background-color: var(--green);
+    background-color: #bebebe;
     color: #252525;
     border-radius: 8px;
     border: 1px solid var(--green);
