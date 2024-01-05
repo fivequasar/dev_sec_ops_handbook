@@ -1,60 +1,6 @@
 <?php
 
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-$server = 'localhost';
-$username = 'root';
-$password = '';
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "DROP USER IF EXISTS 'sandbox_user'@'localhost';";
-$connOne->query($sql);
-
-$sql = "DROP DATABASE IF EXISTS sample_db;";
-$connOne->query($sql);
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "CREATE DATABASE IF NOT EXISTS sample_db;";
-$connOne->query($sql);
-
-$db = 'sample_db';
-
-$conn = new mysqli($server, $username, $password, $db);
-
-$sql = "USE sample_db;";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), country VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(50))";
-$conn->query($sql);
-
-$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
-
-$sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
-$conn->query($sql);
-
-$sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
-$conn->query($sql);
-
-$sql = "GRANT SELECT, INSERT, UPDATE, DELETE ON sample_db.* TO 'sandbox_user'@'localhost';";
-$conn->query($sql);
-
-$sql = "FLUSH PRIVILEGES;";
-$conn->query($sql);
-
-$conn->close();
+include 'db_creation.php';
 
 ?>
 
@@ -70,23 +16,7 @@ $conn->close();
     </head>
 <body>
 
-    <div class="vertical-menu">
-
-    <a href="index.php">Home</a>
-
-    <a href="sqli_home.php" >SQL Injection</a>
-
-    <a href="sqli_in_band.php" >In-Band SQLI</a>
-
-    <a href="sqli_blind.php" >Blind SQLI</a>
-
-    <a href="sqli_oob.php">OOB SQLI</a>
-
-    <a href="sqli_prevention.php">SQLI Prevention</a>
-
-    <a href="xss_home.php">XSS</a>
-
-    </div>
+<?php include 'navigation.php'; ?>
 
 <div class="main">
 
@@ -312,7 +242,7 @@ $conn->close();
 
     <div class="description">
 
-        <a href="sql_inj/sqli_blind/sqli_blind_front_end.php" style="width: 100%;"><button class="buttons" style="width: 100%; text-align:left;padding: 20px;font-size: 20px;">Initiate Blind SQLi Sandbox Demo ></button></a>
+        <a href="sqli_blind_front_end.php" style="width: 100%;"><button class="buttons" style="width: 100%; text-align:left;padding: 20px;font-size: 20px;">Initiate Blind SQLi Sandbox Demo ></button></a>
 
     </div>
 

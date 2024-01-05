@@ -10,23 +10,7 @@
     </head>
 <body>
 
-    <div class="vertical-menu">
-
-        <a href="index.php">Home</a>
-
-        <a href="sqli_home.php" >SQL Injection</a>
-
-        <a href="sqli_in_band.php" >In-Band SQLI</a>
-
-        <a href="sqli_blind.php" >Blind SQLI</a>
-
-        <a href="sqli_oob.php">OOB SQLI</a>
-
-        <a href="sqli_prevention.php">SQLI Prevention</a>
-
-        <a href="xss_home.php">XSS</a>
-
-    </div>
+<?php include 'navigation.php'; ?>
 
 <div class="main">
 
@@ -77,7 +61,7 @@
 
             <p>Where in-band and blind SQLi both receives some form of response back to the attacker, out-of-band SQL Injections sends the response to an attacker's remote endpoint.</p> 
 
-            <button class="buttons">Read More ></button>
+            <a href="sqli_oob.php"><button class="buttons">Read More ></button></a>
         
         </div>
 

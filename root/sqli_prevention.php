@@ -1,60 +1,6 @@
 <?php
 
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-$server = 'localhost';
-$username = 'root';
-$password = '';
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "DROP USER IF EXISTS 'sandbox_user'@'localhost';";
-$connOne->query($sql);
-
-$sql = "DROP DATABASE IF EXISTS sample_db;";
-$connOne->query($sql);
-
-$connOne = new mysqli($server, $username, $password);
-
-$sql = "CREATE DATABASE IF NOT EXISTS sample_db;";
-$connOne->query($sql);
-
-$db = 'sample_db';
-
-$conn = new mysqli($server, $username, $password, $db);
-
-$sql = "USE sample_db;";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), country VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO products (name, country) VALUES ('Apples', 'Spain'), ('Bananas', 'South Africa'), ('Cheese', 'France'), ('Dragonfruit', 'Indonesia');";
-$conn->query($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(50))";
-$conn->query($sql);
-
-$sql = "INSERT INTO comments (message) VALUES ('Hello!'), ('HI'), ('Heyyyy'), ('Evening')";
-
-$sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) UNIQUE, password VARCHAR(20));";
-$conn->query($sql);
-
-$sql = "INSERT INTO users (username, password) VALUES ('administrator', 'password');";
-$conn->query($sql);
-
-$sql = "CREATE USER IF NOT EXISTS 'sandbox_user'@'localhost' IDENTIFIED BY 'password';";
-$conn->query($sql);
-
-$sql = "GRANT SELECT, INSERT, UPDATE, DELETE ON sample_db.* TO 'sandbox_user'@'localhost';";
-$conn->query($sql);
-
-$sql = "FLUSH PRIVILEGES;";
-$conn->query($sql);
-
-$conn->close();
+include 'db_creation.php';
 
 ?>
 
@@ -80,23 +26,7 @@ $conn->close();
     </head>
 <body>
 
-    <div class="vertical-menu">
-
-        <a href="index.php">Home</a>
-
-        <a href="sqli_home.php" >SQL Injection</a>
-
-        <a href="sqli_in_band.php" >In-Band SQLI</a>
-
-        <a href="sqli_blind.php" >Blind SQLI</a>
-
-        <a href="sqli_oob.php">OOB SQLI</a>
-
-        <a href="sqli_prevention.php">SQLI Prevention</a>
-
-        <a href="xss_home.php">XSS</a>
-
-</div>
+<?php include 'navigation.php'; ?>
 
 <div class="main">
 
@@ -114,7 +44,7 @@ $conn->close();
 
 <br>
 
-<p style="margin: 0px;background-color: #111;color: white;padding: 20px 20px 0px 20px; border-radius: 10px 10px 0px 0px;">There are three main ways to counter SQL Injections, <b>Input Validation</b>, <b>Prepared Statements</b> and <b>Stored Procedures</b></p>
+<p style="margin: 0px;background-color: #111;color: white;padding: 20px 20px 0px 20px; border-radius: 10px 10px 0px 0px;">There are two ways to counter SQL Injections, <b>Input Validation</b>, and <b>Prepared Statement</b></p>
 
     <div class="description" style="flex: none;border-radius: 0px;">
 
@@ -125,6 +55,8 @@ $conn->close();
         <p>Have a habit of never trusting any user input, this is why validating the input is super important. Using preg_match can help with validation. preg_match() will help you match patterns based on what you specify. It returns a true or false depending on whether the pattern is found. It is a useful tool for validating user input.</p>
 
         <button class="buttons" id="readMore" onclick="toggle()">Read More</button>
+
+        <a href="validate.php"><button class="buttons" id="sandboxOne" style="display: inline-block;">Initiate Input Validation Sandbox ></button></a>
 
         <div id="road">
 
@@ -164,13 +96,15 @@ $conn->close();
 
         <p>This helps better defend against a SQL injection. For more information regarding creating patterns for input validation, go to https://regexr.com/.</p>
 
-        <br>
         <button class="buttons" id="readLess" onclick="toggleOff()" style="display: none;">Read Less</button>
+
+        <a href="validate.php"><button class="buttons">Initiate Input Validation Sandbox ></button></a>
+
         </div>
     </div>
 </div>
 
-<div class="description" style="border-radius: 0px; padding-top: 0px;"> 
+<div class="description" style="border-radius: 0px; padding-top: 0px;border-radius: 0px 0px 10px 10px;"> 
 
 <div class="sub_description" style="background-image: url('images/prepared.png');margin-top: 0px; background-size: 285.11px 142.56px;">
 
@@ -179,6 +113,9 @@ $conn->close();
         <p>Using prepared statements splits the SQL query and the user input data apart from each other, it is then sent to the database seperately.  </p>
 
         <button class="buttons" id="readMoreTwo" onclick="toggleTwo()">Read More</button>
+
+        
+        <a href="prepared.php"><button class="buttons" id="sandboxTwo" style="display: inline-block;">Initiate Prepared Statement Sandbox ></button></a>
 
         <div id="roadTwo">
 
@@ -219,52 +156,19 @@ $conn->close();
 
         <button class="buttons" id="readLessTwo" onclick="toggleTwoOff()" style="display: none;">Read Less</button>
 
+        <a href="prepared.php"><button class="buttons">Initiate Prepared Statement Sandbox ></button></a>
+
         </div>
     </div>
+
 </div>
 
-<div class="description" style="border-radius: 0px 0px 10px 10px; padding-top: 0px;"> 
+<br>
 
-<div class="sub_description" style="background-image: url('images/stored.png');margin-top: 0px;">
+<div class="description">
 
-    <h3 style="margin-top: 0px;">Stored Procedures</h3>
+<a href="sql_secure_front_end.php" style="width: 100%;"><button class="buttons" style="width: 100%; text-align:left;padding: 20px;font-size: 20px;">Initiate Secure SQL Sandbox Demo ></button></a>
 
-        <p>Stored procedures are similar to creating functions in programming. You first create a stored procedure in the SQL database for use in the code. Then within the code, you call the procedure.</p>
-
-        <button class="buttons" id="readMoreThree" onclick="toggleThree()">Read More</button>
-
-        <div id="roadThree">
-
-        <p>Stored Procedures is very similar like calling a function in a code, you create the function with parameters, then you call it in when needed and it is created within the database itself.</p>
-
-        <p>The query below creates a procedure named GetProductsData, with a single parameter that is an interger:</p>
-
-        <div class="code_space">
-        DELIMITER //<br>
-        CREATE PROCEDURE GetProductsData(IN input_id INT)<br>
-        BEGIN<br>
-            SELECT id, name, country FROM products WHERE id = input_id;<br>
-        END //<br>
-        DELIMITER;<br>
-        </div>
-
-        <p>And in the actual code itself, you can call the function created on the SQL side to initiate the query.</p>
-
-        <div class="code_space">
-
-        $stmt = $conn->prepare("CALL GetProductsData(?)");<br>
-        $stmt->bind_param("i", $id);<br>
-        $stmt->execute();<br>
-
-        </div>
-
-        <br>
-
-
-        <button class="buttons" id="readLessThree" onclick="toggleThreeOff()" style="display: none;">Read Less</button>
-
-        </div>
-    </div>
 </div>
 
 </div> 
@@ -275,15 +179,20 @@ $conn->close();
             var y = document.getElementById("readMore");
             y.style.display = 'none';
             var y = document.getElementById("readLess");
-            y.style.display = 'block';
+            y.style.display = 'inline-block';
+            var z = document.getElementById("sandboxOne");
+            z.style.display = 'none';
         }
         function toggleOff() {
             var x = document.getElementById("road");
             x.classList.toggle('active');
             var y = document.getElementById("readMore");
-            y.style.display = 'block';
+            y.style.display = 'inline-block';
             var y = document.getElementById("readLess");
             y.style.display = 'none';
+            var z = document.getElementById("sandboxOne");
+            z.style.display = 'inline-block';
+
         }
         
         function toggleTwo() {
@@ -292,35 +201,23 @@ $conn->close();
             var y = document.getElementById("readMoreTwo");
             y.style.display = 'none';
             var y = document.getElementById("readLessTwo");
-            y.style.display = 'block';
+            y.style.display = 'inline-block';
+            var z = document.getElementById("sandboxTwo");
+            z.style.display = 'none';
         }
 
         function toggleTwoOff() {
             var x = document.getElementById("roadTwo");
             x.classList.toggle('active');
             var y = document.getElementById("readMoreTwo");
-            y.style.display = 'block';
+            y.style.display = 'inline-block';
             var y = document.getElementById("readLessTwo");
             y.style.display = 'none';
+            var z = document.getElementById("sandboxTwo");
+            z.style.display = 'inline-block';
         }
 
-        function toggleThree() {
-            var x = document.getElementById("roadThree");
-            x.classList.toggle('active');
-            var y = document.getElementById("readMoreThree");
-            y.style.display = 'none';
-            var y = document.getElementById("readLessThree");
-            y.style.display = 'block';
-        }
 
-        function toggleThreeOff() {
-            var x = document.getElementById("roadThree");
-            x.classList.toggle('active');
-            var y = document.getElementById("readMoreThree");
-            y.style.display = 'block';
-            var y = document.getElementById("readLessThree");
-            y.style.display = 'none';
-        }
 
 </script>
 </body>
