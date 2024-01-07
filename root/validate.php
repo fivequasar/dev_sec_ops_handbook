@@ -74,14 +74,14 @@ if (isset($_POST["code"])) {
         <br>
         <br>
 
-        <ol>
+        <ul>
 
             <li><p><span class="code_space"><span style="color:red">pattern</span></span>Define what you're looking for in the text through a specific format.</p></li>
 
             <li><p><span class="code_space"><span style="color:red">input</span></span> The text you want to check. </p></li>
             
 
-        </ol>
+        </ul>
 
         <p>If the pattern matches the input, it will be 1, if it dosen't it will be 0, which could also be interpreted as true or false.</p>
 

