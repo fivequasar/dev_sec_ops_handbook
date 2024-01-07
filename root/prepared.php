@@ -7,6 +7,8 @@ $db_var = 'sample_db';
 
 $content = file_get_contents('code_templates/sqli_secure/prepared_bn.php');
 
+$code = file_get_contents('code_templates/sqli_secure/sql_secure_bn.php');
+
 $output = "";
 
 if (isset($_POST["code"])) {
@@ -24,7 +26,9 @@ if (isset($_POST["code"])) {
     $output = ob_get_contents();
     
     ob_end_clean();
-    
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
