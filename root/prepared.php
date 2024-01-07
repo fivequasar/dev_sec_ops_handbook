@@ -7,6 +7,8 @@ $db_var = 'sample_db';
 
 $content = file_get_contents('code_templates/sqli_secure/prepared_bn.php');
 
+$output = "";
+
 if (isset($_POST["code"])) {
 
     $code = $_POST["code"];
@@ -23,15 +25,6 @@ if (isset($_POST["code"])) {
     
     ob_end_clean();
     
-    unlink("code.php");
-
-} else {
-
-    $code = $content;
-    $output = "";
-
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
